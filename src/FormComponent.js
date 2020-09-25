@@ -28,17 +28,7 @@ const FormComponent = () => {
       },
     ],
   };
-  const schema = Object.values(data)
-    .map((questions) =>
-      Object.values(questions).map((question) =>
-        Object.values(question).map((category) =>
-          Object.values(category).map((fields) => fields.options)
-        )
-      )
-    )
-    .reduce((result, array) => result.concat(array), [])
-    .reduce((result, array) => result.concat(array), []);
-  console.log(schema);
+
   const initialFormData = Object({});
 
   const [formData, updateFormData] = useState(initialFormData);
@@ -56,57 +46,60 @@ const FormComponent = () => {
   };
 
   return (
-    <div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault(e);
-          handleSubmit();
-        }}
-      >
-        {Object.values(data).map((questions) =>
-          Object.values(questions).map((question, i) => (
-            <div key={i}>
-              <h2 key={i}>{question.title}</h2>
-              {Object.values(question).map((category) =>
-                Object.values(category).map((fields, index) => {
-                  if (fields.type === "text" || fields.type === "number") {
-                    return (
-                      <div key={index}>
-                        <h8>{fields.label}</h8>,
-                        <input
-                          onChange={handleChange}
-                          type={fields.type}
-                          name={fields.name}
-                        ></input>
-                      </div>
-                    );
-                  } else if (fields.type === "dropdown") {
-                    return (
-                      <div key={index}>
-                        <h8>{fields.label}</h8>,
-                        <select
-                          onChange={handleChange}
-                          name="country"
-                          label="Land"
-                          options={fields.options}
-                        >
-                          <option value="Nederland">{fields.options}</option>
-                          <option value="Belgie">{fields.options}</option>
-                          <option value="Duitsland">{fields.options}</option>
-                          <option value="UK">{fields.options}</option>
-                        </select>
-                      </div>
-                    );
-                  }
-                })
-              )}
-            </div>
-          ))
-        )}
+    <header>
+      <div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault(e);
+            handleSubmit();
+          }}
+        >
+          {Object.values(data).map((questions) =>
+            Object.values(questions).map((question, i) => (
+              <div key={i}>
+                <h2 key={i}>{question.title}</h2>
+                {Object.values(question).map((category) =>
+                  Object.values(category).map((fields, index) => {
+                    if (fields.type === "text" || fields.type === "number") {
+                      return (
+                        <div key={index}>
+                          <h8>{fields.label}</h8>,
+                          <input
+                            onChange={handleChange}
+                            type={fields.type}
+                            name={fields.name}
+                          ></input>
+                        </div>
+                      );
+                    } else if (fields.type === "dropdown") {
+                      return (
+                        <div key={index}>
+                          <h8>{fields.label}</h8>,
+                          <select
+                            onChange={handleChange}
+                            name="country"
+                            label="Land"
+                            options={fields.options}
+                          >
+                            <option value="Nederland">{fields.options}</option>
+                            <option value="Belgie">{fields.options}</option>
+                            <option value="Duitsland">{fields.options}</option>
+                            <option value="UK">{fields.options}</option>
+                          </select>
+                        </div>
+                      );
+                    }
+                    return "";
+                  })
+                )}
+              </div>
+            ))
+          )}
 
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </header>
   );
 };
 
